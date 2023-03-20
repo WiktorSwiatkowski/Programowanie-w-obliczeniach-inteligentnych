@@ -4,7 +4,7 @@ import numpy as np
 
 
 def generate_points(num_points: int = 2000):
-    distribution_x = norm(loc=50, scale=20)
+    distribution_x = norm(loc=-50, scale=15)
     distribution_y = norm(loc=0, scale=100)
     distribution_z = norm(loc=0.2, scale=0.05)
 
@@ -17,7 +17,7 @@ def generate_points(num_points: int = 2000):
 
 
 def generate_points_pion(num_points: int = 2000):
-    distribution_x = norm(loc=-50, scale=0.05)
+    distribution_x = norm(loc=-100, scale=0.05)
     distribution_y = norm(loc=0, scale=100)
     distribution_z = norm(loc=0.2, scale=20)
 
