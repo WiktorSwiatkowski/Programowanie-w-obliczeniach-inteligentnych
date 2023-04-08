@@ -8,8 +8,8 @@ from numpy.random import default_rng
 import random
 
 
-random.seed(123)
-np.random.seed(123)
+random.seed(300)
+np.random.seed(300)
 
 points = []
 with open('simulate_clouds.xyz', 'r', encoding='utf-8') as csvfile:
@@ -23,37 +23,37 @@ X, Y, Z = zip(*points)
 
 ax = plt.axes(projection='3d')
 ax.scatter3D(X, Y, Z)
-plt.title('points clouds in 3D', fontsize=14)
+plt.title('Chmury punktow', fontsize=16)
 plt.tight_layout()
-plt.xlabel('x', fontsize=12)
-plt.ylabel('y', fontsize=12)
-ax.set_zlabel('z', fontsize=12)
+plt.xlabel('x', fontsize=10)
+plt.ylabel('y', fontsize=10)
+ax.set_zlabel('z', fontsize=10)
 
 clusterer = KMeans(n_clusters=3)
 clusterer.fit(points)
 y_pred = clusterer.predict(points)
 
-red = y_pred == 0
-blue = y_pred == 1
-cyan = y_pred == 2
+green = y_pred == 0
+magenta = y_pred == 1
+brown = y_pred == 2
 
 #plt.figure()
 ax = plt.axes(projection='3d')
-ax.scatter3D(points[red, 0], points[red, 1], points[red, 2], c='red')
-ax.scatter3D(points[blue, 0], points[blue, 1], points[blue, 2], c='blue')
-ax.scatter3D(points[cyan, 0], points[cyan, 1], points[cyan, 2], c='cyan')
-plt.title('clusters in 3D', fontsize=14)
+ax.scatter3D(points[green, 0], points[green, 1], points[green, 2], c='green')
+ax.scatter3D(points[magenta, 0], points[magenta, 1], points[magenta, 2], c='magenta')
+ax.scatter3D(points[brown, 0], points[brown, 1], points[brown, 2], c='brown')
+plt.title('Klastry', fontsize=16)
 plt.tight_layout()
-plt.xlabel('x', fontsize=12)
-plt.ylabel('y', fontsize=12)
-ax.set_zlabel('z', fontsize=12)
+plt.xlabel('x', fontsize=10)
+plt.ylabel('y', fontsize=10)
+ax.set_zlabel('z', fontsize=10)
 
 
 rng = default_rng()
 
 
 class RANSAC:
-    def __init__(self, n=50, k=1000, t=10, d=10, model=None, loss=None, metric=None):
+    def __init__(self, n=20, k=100, t=20, d=20, model=None, loss=None, metric=None):
         self.n = n
         self.k = k
         self.t = t
@@ -130,45 +130,25 @@ if __name__ == "__main__":
 
     regressor = RANSAC(model=PlaneRegression(), loss=square_error_loss, metric=mean_square_error)
 
-    regressor.fit(points[red])
+    regressor.fit(points[green])
     plt.style.use("seaborn-darkgrid")
     plt.figure()
     ax = plt.axes(projection='3d')
-    ax.scatter3D(points[red, 0], points[red, 1], points[red, 2], c='red', alpha=0.1)
-    ax.scatter3D(points[red,0], points[red,1], regressor.predict(points[red,0:2]), color="peru")
+    ax.scatter3D(points[green, 0], points[green, 1], points[green, 2], c='green', alpha=0.1)
+    ax.scatter3D(points[green,0], points[green,1], regressor.predict(points[green,0:2]), color="red")
 
-    # ax.set_xlim3d(points[:,0].min(), points[:,0].max())
-    # ax.set_ylim3d(points[:,1].min(), points[:,1].max())
-    # ax.set_zlim3d(points[:,2].min(), points[:,2].max())
-    #
-    # ax.mouse_init()
-    # ax.view_init(elev=30, azim=-60)
-
-    regressor.fit(points[blue])
+    regressor.fit(points[magenta])
     plt.style.use("seaborn-darkgrid")
     plt.figure()
     ax = plt.axes(projection='3d')
-    ax.scatter3D(points[blue, 0], points[blue, 1], points[blue, 2], c='blue', alpha=0.1)
-    ax.scatter3D(points[blue, 0], points[blue, 1], regressor.predict(points[blue, 0:2]), color="peru")
+    ax.scatter3D(points[magenta, 0], points[magenta, 1], points[magenta, 2], c='magenta', alpha=0.1)
+    ax.scatter3D(points[magenta, 0], points[magenta, 1], regressor.predict(points[magenta, 0:2]), color="red")
 
-    # ax.set_xlim3d(points[:, 0].min(), points[:, 0].max())
-    # ax.set_ylim3d(points[:, 1].min(), points[:, 1].max())
-    # ax.set_zlim3d(points[:, 2].min(), points[:, 2].max())
-    #
-    # ax.mouse_init()
-    # ax.view_init(elev=30, azim=-60)
-
-    regressor.fit(points[cyan])
+    regressor.fit(points[brown])
     plt.style.use("seaborn-darkgrid")
     plt.figure()
     ax = plt.axes(projection='3d')
-    ax.scatter3D(points[cyan, 0], points[cyan, 1], points[cyan, 2], c='blue', alpha=0.1)
-    ax.scatter3D(points[cyan, 0], points[cyan, 1], regressor.predict(points[cyan, 0:2]), color="peru")
+    ax.scatter3D(points[brown, 0], points[brown, 1], points[brown, 2], c='brown', alpha=0.1)
+    ax.scatter3D(points[brown, 0], points[brown, 1], regressor.predict(points[brown, 0:2]), color="red")
 
-    # ax.set_xlim3d(points[:,0].min(), points[:,0].max())
-    # ax.set_ylim3d(points[:,1].min(), points[:,1].max())
-    # ax.set_zlim3d(points[:,2].min(), points[:,2].max())
-    #
-    # ax.mouse_init()
-    # ax.view_init(elev=30, azim=-60)
 plt.show()
