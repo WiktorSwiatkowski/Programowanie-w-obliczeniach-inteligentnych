@@ -1,5 +1,5 @@
 import numpy as np
-from tensorflow.keras import Sequential
+from keras import Sequential
 from keras.layers import Dense
 import pandas as pd
 from sklearn.model_selection import train_test_split
